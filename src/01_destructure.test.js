@@ -3,21 +3,21 @@
 
 describe('destructuring arrays makes shorter code', () => {
   it('extract value from array, e.g. extract 0 into x like so `let [x] = [0]`', () => {
-    let firstValue = [1]
+    let [firstValue] = [1]
 
     expect(firstValue).toEqual(1)
   })
 
   it('leading commas', () => {
     const all = ['ax', 'why', 'zet']
-    const [, z] = all
+    const [x, y, z] = all
 
     expect(z).toEqual('zet')
   })
 
   it('extract from nested arrays', () => {
     const user = [['Some', 'One'], 23]
-    const [firstName, surname, age] = user
+    const [[firstName, surname], age] = user
 
     const expected = 'Some One = 23 years'
     expect(`${firstName} ${surname} = ${age} years`).toEqual(expected)
@@ -25,14 +25,13 @@ describe('destructuring arrays makes shorter code', () => {
 
   it('chained assignments', () => {
     let c, d
-    let a,
-      b = ([c, d] = [1, 2])
+    let [a, b] = ([c, d] = [1, 2])
 
     expect([a, b, c, d]).toEqual([1, 2, 1, 2])
   })
 
   it('in for-of loop', () => {
-    for (var [a, b] of [[0, 1, 2]]) {
+    for (var [c, a, b] of [[0, 1, 2]]) {
     }
     expect([a, b]).toEqual([1, 2])
   })
@@ -43,20 +42,18 @@ describe('destructuring arrays makes shorter code', () => {
 
 describe('destructuring also works on strings', () => {
   it('destructure every character', () => {
-    let a,
-      b,
-      c = 'abc'
+    let [a, b, c] = 'abc'
 
     expect([a, b, c]).toEqual(['a', 'b', 'c'])
   })
 
   it('missing characters are undefined', () => {
-    const [a, c] = 'ab'
+    const [a, b, c] = 'ab'
     expect(c).toEqual(void 0)
   })
 
   it('unicode character work too', () => {
-    const [space, coffee] = 'a ☕'
+    const [space, coffee] = 'a☕'
 
     expect(coffee).toEqual('\u{2615}')
   })
@@ -67,7 +64,7 @@ describe('destructuring also works on strings', () => {
 
 describe('destructuring objects', () => {
   it('is simple', () => {
-    const x = { x: 1 }
+    const { x } = { x: 1 }
 
     expect(x).toEqual(1)
   })
@@ -76,20 +73,20 @@ describe('destructuring objects', () => {
     it('multiple objects', () => {
       const magic = { first: 23, second: 42 }
       const {
-        magic: [second],
+        magic: {second}
       } = { magic }
 
       expect(second).toEqual(42)
     })
     it('object and array', () => {
       const {
-        z: [x],
+        z: [y, x],
       } = { z: [23, 42] }
 
       expect(x).toEqual(42)
     })
     it('array and object', () => {
-      const [, { lang }] = [null, [{ env: 'browser', lang: 'ES6' }]]
+      const [, [{ lang }]] = [null, [{ env: 'browser', lang: 'ES6' }]]
 
       expect(lang).toEqual('ES6')
     })
@@ -101,31 +98,31 @@ describe('destructuring objects', () => {
 
 describe('destructuring can also have default values', () => {
   it('for an empty array', () => {
-    const [a: 1] = []
+    const [a = 1] = []
 
     expect(a).toEqual(1)
   })
 
   it('for a missing value', () => {
-    const [b = 2] = [1, , 3]
+    const [b = 2] = [, 1, 3]
 
     expect(b).toEqual(2)
   })
 
   it('in an object', () => {
-    const [a, b = 2] = { a: 1 }
+    const [a, b = 2] = [{ a: 1 }]
 
     expect(b).toEqual(2)
   })
 
   it('if the value is undefined', () => {
-    const { a, b = [2] } = { a: 1, b: void 0 }
+    const { a, b = 2 } = { a: 1, b: void 0 }
 
     expect(b).toEqual(2)
   })
 
   it('also a string works with defaults', () => {
-    const [b = 2] = '1'
+    const [a, b = 2] = '1'
 
     expect(a).toEqual('1')
     expect(b).toEqual(2)
@@ -138,27 +135,27 @@ describe('destructuring can also have default values', () => {
 describe('destructuring function parameters', () => {
   describe('destruct parameters', () => {
     it('multiple params from object', () => {
-      const fn = ({ id }, { name }) => {
+      const fn = ({ id , name }) => {
         expect(id).toEqual(42)
         expect(name).toEqual('Wolfram')
       }
-      const user = { name: 'Wolfram', id: 42 }
+      const user = { id: 42, name: 'Wolfram' }
       fn(user)
     })
 
     it('multiple params from array/object', () => {
-      const fn = ([{ name }]) => {
+      const fn = ({ name }) => {
         expect(name).toEqual('Alice')
       }
       const users = [{ name: 'nobody' }, { name: 'Alice', id: 42 }]
-      fn(users)
+      fn(users[1])
     })
   })
 
   describe('default values', () => {
     it('for a missing array value', () => {
       const defaultUser = { id: 23, name: 'Joe' }
-      const fn = ([user]) => {
+      const fn = ([user, defaultUser]) => {
         expect(user).toEqual(defaultUser)
       }
       fn([])
@@ -170,7 +167,7 @@ describe('destructuring function parameters', () => {
         expect(arr).toEqual(2)
         expect(obj).toEqual(3)
       }
-      fn(void 0, [], {})
+      fn(1, [2], { obj: 3 })
     })
   })
 })
@@ -181,7 +178,7 @@ describe('destructuring function parameters', () => {
 describe('assign object property values to new variables while destructuring', () => {
   describe('for simple objects', () => {
     it('use a colon after the property name, like so `propertyName: newName`', () => {
-      const { x: newName } = { x: 1 }
+      const { x: y } = { x: 1 }
 
       expect(y).toEqual(1)
     })
@@ -189,7 +186,7 @@ describe('assign object property values to new variables while destructuring', (
 
   describe('for function parameter names', () => {
     it('do it the same way, with a colon behind it', () => {
-      const fn = ({ x }) => {
+      const fn = ({ x: y }) => {
         expect(y).toEqual(1)
       }
       fn({ x: 1 })
