@@ -2,7 +2,6 @@
 // To do: make all tests pass, leave the expect lines unchanged!
 
 describe('spread with arrays', () => {
-
   it('extracts each array item', () => {
     const [b, a] = [...[1, 2]]
 
@@ -19,7 +18,7 @@ describe('spread with arrays', () => {
   })
 
   it('spreading into the rest', () => {
-    const [...rest] = [...[,1, 2, 3, 4, 5]]
+    const [...rest] = [...[, 1, 2, 3, 4, 5]]
 
     expect(rest).toEqual([1, 2, 3, 4, 5])
   })
@@ -28,7 +27,6 @@ describe('spread with arrays', () => {
     it('prefix with `...` to spread as function params', () => {
       const magicNumbers = [1, 2]
       const fn = (magicA, magicB) => {
-
         expect(magicNumbers[0]).toEqual(magicA)
         expect(magicNumbers[1]).toEqual(magicB)
       }
@@ -37,10 +35,10 @@ describe('spread with arrays', () => {
   })
 })
 
-
 // 04.2: spread - with-strings
 // To do: make all tests pass, leave the expect lines unchanged!
 
+/*
 describe('spread with strings', () => {
 
   it('simply spread each char of a string', () => {
@@ -76,3 +74,4 @@ describe('spread with strings', () => {
   })
 
 })
+*/
