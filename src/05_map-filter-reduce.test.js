@@ -3,17 +3,17 @@
 
 describe('use map', () => {
   const pets = [
-    { name: 'guincho', species: 'dog'},
-    { name: 'felix', species: 'cat'},
-    { name: 'nemo', species: 'fish'},
-    { name: 'tweety', species: 'bird'},
-    { name: 'snout', species: 'pig'},
-    { name: 'fluffy', species: 'rabbit'},
+    { name: 'guincho', species: 'dog' },
+    { name: 'felix', species: 'cat' },
+    { name: 'nemo', species: 'fish' },
+    { name: 'tweety', species: 'bird' },
+    { name: 'snout', species: 'pig' },
+    { name: 'fluffy', species: 'rabbit' },
   ]
 
   it('map pets to match the string', () => {
     // Write a concise anonymous function using .map to return an array containing the array above
-    const petNames = __
+    const petNames = pets.map(pet => pet.name + ' is a ' + pet.species)
 
     expect(petNames).toEqual([
       'guincho is a dog',
@@ -21,7 +21,7 @@ describe('use map', () => {
       'nemo is a fish',
       'tweety is a bird',
       'snout is a pig',
-      'fluffy is a rabbit'
+      'fluffy is a rabbit',
     ])
   })
 })
@@ -31,32 +31,20 @@ describe('use filter', () => {
 
   it('filters for numbers over 60', () => {
     // Write a concise anonymous function using .filter to return an array containing all the numbers over 60 called overSixty
-    const overSixty = __
+    const overSixty = numbers.filter(number => number > 60)
 
-    expect(overSixty).toEqual([
-      65,
-      70,
-      85,
-      100,
-      205
-    ])
+    expect(overSixty).toEqual([65, 70, 85, 100, 205])
   })
 })
 
 describe('use reduce', () => {
-
-  const orders = [
-    { amount: 300 },
-    { amount: 50 },
-    { amount: 440 },
-    { amount: 225 },
-    { amount: 155 },
-  ]
+  const orders = [{ amount: 300 }, { amount: 50 }, { amount: 440 }, { amount: 225 }, { amount: 155 }]
 
   it('returns the total amount', () => {
     // Use .reduce to return the sum of the orders using a concise anonymous function
     // stored in a variable called orderTotal
-    const orderTotal = __
+
+    const orderTotal = orders.map(el => el.amount).reduce((el, i) => el + i)
 
     expect(orderTotal).toEqual(1170)
   })
